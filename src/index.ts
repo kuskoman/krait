@@ -7,23 +7,14 @@ export const parseKraitConfig = (cfg: KraitConfig) => {
 
 export const generateInterfaceTree = (structure: KraitStructure) => {
   const treeNode: Indexable = {};
-  for (const [name, object] of Object.entries(structure)) {
+  for (let [name, object] of Object.entries(structure)) {
     if (object.childs) {
       treeNode[name] = generateInterfaceTree(object.childs);
     } else {
-      let { type } = object;
-
-      const types = [];
-      if (typeof type !== "object") {
-        types.push(type);
-      } else {
-        type.forEach((t) => types.push(t));
-      }
-
+      const types = getTypesFromNode(object);
       if (!object.required) {
-        types.push("undefined");
+        name = `${name}?`;
       }
-
       treeNode[name] = types.join(" | ");
     }
   }
@@ -48,6 +39,16 @@ export const generateInterfaceContent = (
     interfaceString += `${intendationString}  ${name}: ${value}\n`;
   }
   return interfaceString + `${intendationString}}`;
+};
+
+export const getTypesFromNode = (node: KraitObject) => {
+  let { type } = node;
+
+  if (typeof type !== "object") {
+    return [type];
+  }
+
+  return type;
 };
 
 export const generateInterface = (
