@@ -1,7 +1,8 @@
 export const parseKraitConfig = (cfg: KraitConfig) => {
   const { structure } = cfg;
   const treeNode = generateInterfaceTree(structure);
-  return generateInterfaces(treeNode);
+  const cfgInterfaceName = cfg.configInterfaceName || "Config";
+  return generateInterface(cfgInterfaceName, treeNode);
 };
 
 export const generateInterfaceTree = (structure: KraitStructure) => {
@@ -21,7 +22,7 @@ export const generateInterfaceTree = (structure: KraitStructure) => {
   return treeNode;
 };
 
-export const generateInterfaces = (
+export const generateInterfaceContent = (
   treeNode: Indexable,
   intendation = 0
 ): string => {
@@ -30,7 +31,7 @@ export const generateInterfaces = (
   for (const [name, property] of Object.entries(treeNode)) {
     let value: string;
     if (typeof property === "object") {
-      value = generateInterfaces(property, intendation + 2);
+      value = generateInterfaceContent(property, intendation + 2);
     } else {
       value = property;
     }
@@ -40,7 +41,16 @@ export const generateInterfaces = (
   return interfaceString + `${intendationString}}`;
 };
 
+export const generateInterface = (
+  interfaceName: string,
+  nodeTree: Indexable
+) => {
+  const content = generateInterfaceContent(nodeTree);
+  return `export interface ${interfaceName} ${content}`;
+};
+
 export interface KraitConfig {
+  configInterfaceName?: string;
   structure: KraitStructure;
 }
 
