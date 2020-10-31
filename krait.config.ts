@@ -2,8 +2,8 @@ import { KraitConfig, parseKraitConfig } from "./src";
 
 const config: KraitConfig = {
   structure: {
-    s3Port: { type: "string", required: true },
-    awsPort: { type: "number", required: false },
+    awsPort: { type: ["number", "number[]"], required: false },
+    sPort: { type: "string", required: true },
     propertyWithChilds: {
       childs: {
         nodePort: { type: "number" },

@@ -12,9 +12,17 @@ export const generateInterfaceTree = (structure: KraitStructure) => {
       treeNode[name] = generateInterfaceTree(object.childs);
     } else {
       let { type } = object;
+
+      const types = [];
+      if (typeof type !== "object") {
+        types.push(type);
+      } else {
+        type.forEach((t) => types.push(t));
+      }
+
       if (!object.required) {
-        type += " | undefined";
-        treeNode[name] = type;
+        types.push("undefined");
+        treeNode[name] = types.join(" | ");
       }
     }
   }
@@ -60,7 +68,7 @@ export interface KraitStructure {
 
 export interface KraitBaseObject {
   required?: boolean;
-  type?: KraitAllowedType;
+  type?: KraitAllowedType | KraitAllowedType[];
   childs: {
     [name: string]: KraitObject;
   };
