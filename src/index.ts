@@ -22,8 +22,9 @@ export const generateInterfaceTree = (structure: KraitStructure) => {
 
       if (!object.required) {
         types.push("undefined");
-        treeNode[name] = types.join(" | ");
       }
+
+      treeNode[name] = types.join(" | ");
     }
   }
 
