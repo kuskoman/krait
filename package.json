@@ -1,0 +1,9 @@
+{
+  "name": "krait",
+  "version": "0.0.1",
+  "description": "Config parser generator",
+  "main": "dist/index.js",
+  "repository": "git@github.com:kuskoman/krait.git",
+  "author": "kkm <kubasurdej@gmail.com>",
+  "license": "MIT"
+}
