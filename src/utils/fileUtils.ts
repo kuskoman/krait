@@ -1,18 +1,10 @@
 import { existsSync, readFileSync } from "fs";
 import {
-  FileCannotBeReadError,
   FileDoesNotExistError,
-} from "../../exceptions/fileExceptions";
+  FileCannotBeReadError,
+} from "../exceptions/fileExceptions";
 
-export const loadJsonConfig = (location: string): unknown => {
-  checkIfFileExists(location);
-  const fileContent = readFileContent(location);
-  const parsedConfig = JSON.parse(fileContent);
-
-  return parsedConfig;
-};
-
-const checkIfFileExists = (location: string) => {
+export const checkIfFileExists = (location: string) => {
   const fileExists = existsSync(location);
 
   if (!fileExists) {
@@ -21,7 +13,7 @@ const checkIfFileExists = (location: string) => {
   }
 };
 
-const readFileContent = (location: string): string => {
+export const readFileContent = (location: string): string => {
   let file;
 
   try {
