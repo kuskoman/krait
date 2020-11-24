@@ -1,5 +1,5 @@
 import { RequireOnlyOne } from "../utils/typeUtils";
-import { KraitAllowedType } from "../validator";
+import { KraitAllowedType } from "../validator/dynamicValidator";
 
 export const parseKraitConfig = (cfg: KraitConfig) => {
   const { structure } = cfg;
